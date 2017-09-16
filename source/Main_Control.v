@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Engineer: Ryan Bowler
 // 
@@ -18,7 +19,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 // ============================================================================== 
-// 										  Define Module
+// 								Define Module
 // ==============================================================================
 module Main_Control(
     clk,
@@ -37,10 +38,10 @@ module Main_Control(
     );
 
 	// ===========================================================================
-	// 										Port Declarations
+	// 		Port Declarations
 	// ===========================================================================
-			input clk;					// 12Mhz onboard clock
-			input rst;					// reset command, not implemented
+			input  clk;					// 12Mhz onboard clock
+			input  rst;					// reset command, not implemented
 			
 			output LED1;
 			output LED2;
@@ -48,17 +49,17 @@ module Main_Control(
 			output LED4;
 			output LED5;
 			
-			input JSTK_MISO;				// Master In Slave Out
-			output JSTK_SS;					// Slave Select
-			output JSTK_MOSI;				// Master Out Slave In
-			output JSTK_SCK;				// Serial Clock
+			input  JSTK_MISO;			// Master In Slave Out
+			output JSTK_SS;				// Slave Select
+			output JSTK_MOSI;			// Master Out Slave In
+			output JSTK_SCK;			// Serial Clock
 
 	// ===========================================================================
-	// 							  Parameters, Regsiters, and Wires
+	// 		Parameters, Regsiters, and Wires
 	// ===========================================================================
 
 			// Holds data to be sent to PmodJSTK
-			wire [7:0] sndData;
+			wire [39:0] sndData;
 
 			// Signal to send/receive data to/from PmodJSTK
 			wire sndRec;
@@ -69,14 +70,17 @@ module Main_Control(
 			wire [9:0] XposData;
 			// Signal carrying joystick Y data
 			wire [9:0] YposData;
+			
+			// Currently selected color for system
+			wire [27:0] RGBcolor;
 
 	// ===========================================================================
-	// 										Implementation
+	// 		Implementation
 	// ===========================================================================
 
 
 			//-----------------------------------------------
-			//  	  			PmodJSTK Interface
+			//		PmodJSTK Interface
 			//-----------------------------------------------
 			PmodJSTK PmodJSTK_Int(
 					.CLK(clk),
@@ -92,7 +96,7 @@ module Main_Control(
 			
 
 			//-----------------------------------------------
-			//  			 Send Receive Generator
+			//		Send Receive Generator
 			//-----------------------------------------------
 			ClkDiv_10Hz genSndRec(
 					.CLK(clk),
@@ -100,7 +104,18 @@ module Main_Control(
 					.CLKOUT(sndRec)
 			);
 			
-
+			//-----------------------------------------------
+			//		Cycle colors based on joystick button
+			//-----------------------------------------------
+			// Select_Color colorcontrol(
+					// .clk(clk),
+					// .button(jstkData[1:0]),
+					// .RGB(RGBcolor)		
+			// );
+			
+			//-----------------------------------------------
+			//		Report joystick shit on LEDs
+			//-----------------------------------------------
 			LED_joystick lightcontroller(
 					.clk(clk),
 					.xpos(XposData),
@@ -114,10 +129,10 @@ module Main_Control(
 			);
 
 			// Use state of switch 0 to select output of X position or Y position data to SSD
-			assign XposData = {jstkData[25:24], jstkData[39:32]};
-			assign YposData = {jstkData[9:8], jstkData[23:16]};
+			assign YposData = {jstkData[25:24], jstkData[39:32]};
+			assign XposData = {jstkData[9:8], jstkData[23:16]};
 			
-			// Data to be sent to PmodJSTK, lower two bits will turn on leds on PmodJSTK
-			assign sndData = 8'b00000000;
+			// Data to be sent to PmodJSTK, first byte signifies to control RGB on PmodJSTK
+			assign sndData[39:28] = 8'b10000011;
 
 endmodule

@@ -1,4 +1,4 @@
-
+`timescale 1ns / 1ps
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Company: Digilent Inc.
 // Engineer: Josh Sackos
@@ -39,7 +39,7 @@ module PmodJSTK(
 			input CLK;						// 100MHz onboard clock
 			input RST;						// Reset
 			input sndRec;					// Send receive, initializes data read/write
-			input [7:0] DIN;				// Data that is to be sent to the slave
+			input [39:0] DIN;				// Data that is to be sent to the slave
 			input MISO;						// Master in slave out
 			output SS;						// Slave select, active low
 			output SCLK;					// Serial clock
@@ -79,7 +79,7 @@ module PmodJSTK(
 					.RST(RST),
 					.sndRec(sndRec),
 					.BUSY(BUSY),
-					.DIN(DIN),
+					.DIN(DIN[39:28]),
 					.RxData(RxData),
 					.SS(SS),
 					.getByte(getByte),

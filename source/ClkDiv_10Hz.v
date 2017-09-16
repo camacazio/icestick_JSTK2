@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Engineer: Ryan Bowler
 // 
@@ -6,7 +7,7 @@
 // Project Name:	Joystick_Controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
-// Description: Converts input 12 MHz clock signal to a 10Hz clock signal
+// Description: Converts input 12 MHz clock signal to a 10Hz "update system" clock signal
 //////////////////////////////////////////////////////////////////////////////////
 
 // ============================================================================== 
