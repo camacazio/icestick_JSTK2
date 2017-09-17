@@ -2,19 +2,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Company: Digilent Inc.
 // Engineer: Josh Sackos
-// 
+//
 // Create Date:    07/11/2012
 // Module Name:    PmodJSTK
 // Project Name: 	 PmodJSTK_Demo
 // Target Devices: Nexys3
 // Tool versions:  ISE 14.1
 // Description: This component consists of three subcomponents a 66.67kHz serial clock,
-//					 a SPI controller and a SPI interface. The SPI interface component is 
-//					 responsible for sending and receiving a byte of data to and from the 
+//					 a SPI controller and a SPI interface. The SPI interface component is
+//					 responsible for sending and receiving a byte of data to and from the
 //					 PmodJSTK when a request is made. The SPI controller component manages all
 //					 data transfer requests, and manages the data bytes being sent to the PmodJSTK.
 //
-// Revision History: 
+// Revision History:
 // 						Revision 0.01 - File Created (Josh Sackos)
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +60,7 @@ module PmodJSTK(
 			wire [7:0] sndData;							// Data to be sent to Slave
 			wire [7:0] RxData;							// Output data from SPI_Int
 			wire BUSY;										// Handshake from SPI_Int to SPI_Ctrl
-			
+
 
 			// 66.67kHz Clock Divider, period 15us
 			wire iSCLK;										// Internal serial clock,
@@ -79,7 +79,7 @@ module PmodJSTK(
 					.RST(RST),
 					.sndRec(sndRec),
 					.BUSY(BUSY),
-					.DIN(DIN[39:28]),
+					.DIN(DIN),
 					.RxData(RxData),
 					.SS(SS),
 					.getByte(getByte),
