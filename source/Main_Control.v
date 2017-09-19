@@ -1,36 +1,36 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Engineer: Ryan Bowler
-// 
+//
 // Create Date:    	06/07/2017
-// Module Name:    	Main Module 
+// Module Name:    	Main Module
 // Project Name:	Joystick_Controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
 // Description: This is a demo for the Digilent PmodJSTK. Data is sent and received
-//					 to and from the PmodJSTK at a frequency of 10Hz, and positional 
+//					 to and from the PmodJSTK at a frequency of 10Hz, and positional
 //					 data controls the cross LED pattern on the board. The positional
 //					 data of the joystick ranges from 0 to 1023 in both the X and Y
 //					 directions. The center LED will illuminate when a button is pressed.
 //					 SPI mode 0 is used for communication between the PmodJSTK and the Nexys3.
 //
-// Revision History: 
+// Revision History:
 // 						Revision 0.01 - File Created (Josh Sackos)
 //////////////////////////////////////////////////////////////////////////////////
 
-// ============================================================================== 
+// ==============================================================================
 // 								Define Module
 // ==============================================================================
 module Main_Control(
     clk,
 	rst,
-	
+
 	LED1,
     LED2,
     LED3,
     LED4,
     LED5,
-	
+
 	JSTK_SS,
     JSTK_MOSI,
     JSTK_MISO,
@@ -42,13 +42,13 @@ module Main_Control(
 	// ===========================================================================
 			input  clk;					// 12Mhz onboard clock
 			input  rst;					// reset command, not implemented
-			
+
 			output LED1;
 			output LED2;
 			output LED3;
 			output LED4;
 			output LED5;
-			
+
 			input  JSTK_MISO;			// Master In Slave Out
 			output JSTK_SS;				// Slave Select
 			output JSTK_MOSI;			// Master Out Slave In
@@ -70,9 +70,9 @@ module Main_Control(
 			wire [9:0] XposData;
 			// Signal carrying joystick Y data
 			wire [9:0] YposData;
-			
+
 			// Currently selected color for system
-			wire [27:0] RGBcolor;
+			wire [31:0] RGBcolor;
 
 	// ===========================================================================
 	// 		Implementation
@@ -92,8 +92,8 @@ module Main_Control(
 					.SCLK(JSTK_SCK),
 					.MOSI(JSTK_MOSI),
 					.DOUT(jstkData)
-			);	
-			
+			);
+
 
 			//-----------------------------------------------
 			//		Send Receive Generator
@@ -103,16 +103,16 @@ module Main_Control(
 					.RST(rst),
 					.CLKOUT(sndRec)
 			);
-			
+
 			//-----------------------------------------------
 			//		Cycle colors based on joystick button
 			//-----------------------------------------------
-			// Select_Color colorcontrol(
-					// .clk(clk),
-					// .button(jstkData[1:0]),
-					// .RGB(RGBcolor)		
-			// );
-			
+			Select_Color colorcontrol(
+					.clk(clk),
+					.button(jstkData[1:0]),
+					.RGB(RGBcolor)
+			);
+
 			//-----------------------------------------------
 			//		Report joystick shit on LEDs
 			//-----------------------------------------------
@@ -125,14 +125,14 @@ module Main_Control(
 					.LED2(LED2),
 					.LED3(LED3),
 					.LED4(LED4),
-					.LED5(LED5)			
+					.LED5(LED5)
 			);
 
 			// Use state of switch 0 to select output of X position or Y position data to SSD
 			assign YposData = {jstkData[25:24], jstkData[39:32]};
 			assign XposData = {jstkData[9:8], jstkData[23:16]};
-			
+
 			// Data to be sent to PmodJSTK, first byte signifies to control RGB on PmodJSTK
-			assign sndData[39:28] = 8'b10000011;
+			assign sndData = {8'b10000011, RGBcolor, 8'b00000000};
 
 endmodule
