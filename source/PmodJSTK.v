@@ -22,15 +22,15 @@
 // 										  Define Module
 // ==============================================================================
 module PmodJSTK(
-			CLK,
-			RST,
-			sndRec,
-			DIN,
-			MISO,
-			SS,
-			SCLK,
-			MOSI,
-			DOUT
+	CLK,
+	RST,
+	sndRec,
+	DIN,
+	MISO,
+	SS,
+	SCLK,
+	MOSI,
+	DOUT
     );
 
 // ===========================================================================

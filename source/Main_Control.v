@@ -18,6 +18,8 @@
 // 						Revision 0.01 - File Created (Josh Sackos)
 //////////////////////////////////////////////////////////////////////////////////
 
+// Top level entitiy
+
 // ==============================================================================
 // 								Define Module
 // ==============================================================================
@@ -57,7 +59,6 @@ module Main_Control(
 	// ===========================================================================
 	// 		Parameters, Regsiters, and Wires
 	// ===========================================================================
-
 			// Holds data to be sent to PmodJSTK
 			wire [39:0] sndData;
 
@@ -72,12 +73,11 @@ module Main_Control(
 			wire [9:0] YposData;
 
 			// Currently selected color for system
-			wire [31:0] RGBcolor;
+			wire [23:0] RGBcolor;
 
 	// ===========================================================================
 	// 		Implementation
 	// ===========================================================================
-
 
 			//-----------------------------------------------
 			//		PmodJSTK Interface
@@ -94,6 +94,14 @@ module Main_Control(
 					.DOUT(jstkData)
 			);
 
+			//-----------------------------------------------
+			//		Cycle colors based on joystick button
+			//-----------------------------------------------
+			colorcontrol Select_Color(
+					.clk(clk),
+					.button(jstkData[1:0]),
+					.RGBcolor(RGBcolor)
+			);
 
 			//-----------------------------------------------
 			//		Send Receive Generator
@@ -102,15 +110,6 @@ module Main_Control(
 					.CLK(clk),
 					.RST(rst),
 					.CLKOUT(sndRec)
-			);
-
-			//-----------------------------------------------
-			//		Cycle colors based on joystick button
-			//-----------------------------------------------
-			Select_Color colorcontrol(
-					.clk(clk),
-					.button(jstkData[1:0]),
-					.RGB(RGBcolor)
 			);
 
 			//-----------------------------------------------
@@ -128,11 +127,11 @@ module Main_Control(
 					.LED5(LED5)
 			);
 
-			// Use state of switch 0 to select output of X position or Y position data to SSD
+			// Collect joystick state for position state
 			assign YposData = {jstkData[25:24], jstkData[39:32]};
 			assign XposData = {jstkData[9:8], jstkData[23:16]};
 
 			// Data to be sent to PmodJSTK, first byte signifies to control RGB on PmodJSTK
-			assign sndData = {8'b10000011, RGBcolor, 8'b00000000};
+			assign sndData = {8'b10000100, RGBcolor, 8'b00000000};
 
 endmodule

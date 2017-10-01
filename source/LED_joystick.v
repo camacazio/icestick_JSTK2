@@ -11,17 +11,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module LED_joystick(
-    input  clk,
+    input		clk,
 	
-	input [9:0] xpos,
-	input [9:0] ypos,
-	input [1:0] button,
+	input [9:0]	xpos,
+	input [9:0]	ypos,
+	input [1:0]	button,
 	
-    output LED1,
-    output LED2,
-    output LED3,
-    output LED4,
-    output LED5
+    output		LED1,
+    output		LED2,
+    output		LED3,
+    output		LED4,
+    output		LED5
     );
 	
 	// ===========================================================================
@@ -76,4 +76,5 @@ module LED_joystick(
 	assign LED3 = xPosLED[1];
 	assign LED4 = yPosLED[0];	
 	assign LED2 = yPosLED[1];
+	
 endmodule

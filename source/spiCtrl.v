@@ -25,16 +25,16 @@
 // 										  Define Module
 // ==============================================================================
 module spiCtrl(
-			CLK,
-			RST,
-			sndRec,
-			BUSY,
-			DIN,
-			RxData,
-			SS,
-			getByte,
-			sndData,
-			DOUT
+	CLK,
+	RST,
+	sndRec,
+	BUSY,
+	DIN,
+	RxData,
+	SS,
+	getByte,
+	sndData,
+	DOUT
     );
 
 	// ===========================================================================
@@ -74,8 +74,10 @@ module spiCtrl(
 
 			reg [2:0] byteCnt = 3'd0;					// Number bytes read/written
 			parameter byteEndVal = 3'd5;				// Number of bytes to send/receive
-			reg [39:0] tmpSR = 40'h0000000000;		// Temporary shift register to
-																// accumulate all five received data bytes
+			reg [39:0] tmpSR = 40'h0000000000;			// Temporary shift register to
+															// accumulate all five received data bytes
+			reg [39:0] tmpSRsend = 40'h0000000000;		// Temporary shift register to
+															// shift through all five send data bytes
 
 	// ===========================================================================
 	// 										Implementation
@@ -87,6 +89,7 @@ module spiCtrl(
 					SS <= 1'b1;
 					getByte <= 1'b0;
 					sndData <= 8'h00;
+					tmpSRsend <= 40'h0000000000;
 					tmpSR <= 40'h0000000000;
 					DOUT <= 40'h0000000000;
 					byteCnt <= 3'd0;
@@ -102,7 +105,8 @@ module spiCtrl(
 										SS <= 1'b1;								// Disable slave
 										getByte <= 1'b0;						// Do not request data
 										sndData <= 8'h00;						// Clear data to be sent
-										tmpSR <= 40'h0000000000;			// Clear temporary data
+										tmpSRsend <= DIN;						// Send temporary data
+										tmpSR <= 40'h0000000000;				// Clear temporary data
 										DOUT <= DOUT;							// Retain output data
 										byteCnt <= 3'd0;						// Clear byte count
 
@@ -118,11 +122,12 @@ module spiCtrl(
 
 								// Init
 								Init : begin
-
+	
 										SS <= 1'b0;								// Enable slave
 										getByte <= 1'b1;						// Initialize data transfer
-										sndData <= DIN[8*(byteCnt+1)-1:8*byteCnt];	// Store data to be sent
-										tmpSR <= tmpSR;						// Retain temporary data
+										sndData <= tmpSRsend[39:32];			// Store data to be sent
+										tmpSRsend <= tmpSRsend;					// Retain temporary send data
+										tmpSR <= tmpSR;							// Retain temporary data
 										DOUT <= DOUT;							// Retain output data
 
 										if(BUSY == 1'b1) begin
@@ -140,10 +145,11 @@ module spiCtrl(
 
 										SS <= 1'b0;								// Enable slave
 										getByte <= 1'b0;						// Data request already in progress
-										sndData <= sndData;					// Retain data to send
-										tmpSR <= tmpSR;						// Retain temporary data
+										sndData <= sndData;						// Retain data to send
+										tmpSRsend <= tmpSRsend;					// Retain temporary send data
+										tmpSR <= tmpSR;							// Retain temporary data
 										DOUT <= DOUT;							// Retain output data
-										byteCnt <= byteCnt;					// Do not count
+										byteCnt <= byteCnt;						// Do not count
 
 										// Finished reading byte so grab data
 										if(BUSY == 1'b0) begin
@@ -161,10 +167,11 @@ module spiCtrl(
 
 										SS <= 1'b0;								// Enable slave
 										getByte <= 1'b0;						// Do not request data
-										sndData <= sndData;					// Retain data to send
-										tmpSR <= {tmpSR[31:0], RxData};	// Store byte just read
+										sndData <= sndData;						// Retain data to send
+										tmpSRsend <= {tmpSRsend[31:0], 8'b00000000}; // Shift send data
+										tmpSR <= {tmpSR[31:0], RxData};			// Store byte just read
 										DOUT <= DOUT;							// Retain output data
-										byteCnt <= byteCnt;					// Do not count
+										byteCnt <= byteCnt;						// Do not count
 
 										// Finished reading bytes so done
 										if(byteCnt == 3'd5) begin
@@ -182,9 +189,8 @@ module spiCtrl(
 										SS <= 1'b1;							// Disable slave
 										getByte <= 1'b0;					// Do not request data
 										sndData <= 8'h00;					// Clear input
-										tmpSR <= tmpSR;					// Retain temporary data
-										DOUT[39:0] <= tmpSR[39:0];		// Update output data
-										byteCnt <= byteCnt;				// Do not count
+										DOUT[39:0] <= tmpSR[39:0];			// Update output data
+										byteCnt <= byteCnt;					// Do not count
 
 										// Wait for external sndRec signal to be de-asserted
 										if(sndRec == 1'b0) begin
