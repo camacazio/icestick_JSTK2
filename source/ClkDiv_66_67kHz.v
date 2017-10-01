@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Engineer: Ryan Bowler
-// 
+//
 // Create Date:		05/23/2017
-// Module Name:		ClkDiv_66_67kHz 
+// Module Name:		ClkDiv_66_67kHz
 // Project Name:	Joystick_Controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
 // Description: Converts input 12 MHz clock signal to a 66.67kHz clock signal for serial comm
 //////////////////////////////////////////////////////////////////////////////////
 
-// ============================================================================== 
+// ==============================================================================
 // 										  Define Module
 // ==============================================================================
 module ClkDiv_66_67kHz(
-    CLK,											// 12MHz onbaord clock
-    RST,											// Reset
-    CLKOUT											// New clock output
+    CLK,										// 12MHz onbaord clock
+    RST,										// Reset
+    CLKOUT									// New clock output
     );
 
 // ===========================================================================
@@ -43,8 +43,7 @@ module ClkDiv_66_67kHz(
 // ===========================================================================
 
 	//----------------------------------------------
-	//						Serial Clock
-	//			66.67kHz Clock Divider, period 15us
+	// 66.67kHz Clock Divider, period 15us, for serial clock timing
 	//----------------------------------------------
 	always @(posedge CLK) begin
 

@@ -3,14 +3,14 @@
 // Engineer: Amber Arendas
 //
 // Create Date:		05/23/2017
-// Module Name:		colorcontrol
+// Module Name:		RGB_color_set
 // Project Name:	Joystick_Controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
 // Description: Cycles the RGB color setting, each of R,G,B are a single byte
 //////////////////////////////////////////////////////////////////////////////////
 
-module colorcontrol(
+module RGB_color_set(
 	clk,
 	button,
 	RGBcolor
@@ -21,7 +21,7 @@ module colorcontrol(
 	// ===========================================================================
 	input clk;
 	input [1:0] button;
-	output [23:0] RGBcolor; 
+	output [23:0] RGBcolor;
 
 	// ===========================================================================
 	// 							  Parameters, Regsiters, and Wires
@@ -46,7 +46,7 @@ module colorcontrol(
 			gre <= 8'b01111111;
 			blu <= 8'b01111111;
 			end
-			
+
 		// Color shit
 		else if (cunt == 1)begin
 			red <= 8'b01111111;

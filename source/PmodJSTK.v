@@ -6,32 +6,33 @@
 // Create Date:    07/11/2012
 // Module Name:    PmodJSTK
 // Project Name: 	 PmodJSTK_Demo
-// Target Devices: Nexys3
-// Tool versions:  ISE 14.1
+// Target Devices: ICEStick
+// Tool versions:  iCEcube2
 // Description: This component consists of three subcomponents a 66.67kHz serial clock,
-//					 a SPI controller and a SPI interface. The SPI interface component is
+//					 an SPI controller and a SPI interface. The SPI interface component is
 //					 responsible for sending and receiving a byte of data to and from the
 //					 PmodJSTK when a request is made. The SPI controller component manages all
 //					 data transfer requests, and manages the data bytes being sent to the PmodJSTK.
 //
 // Revision History:
 // 						Revision 0.01 - File Created (Josh Sackos)
+//							Revision 1.0 - Updated to send 5 bytes of data instead of just 1
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // ==============================================================================
 // 										  Define Module
 // ==============================================================================
 module PmodJSTK(
-	CLK,
-	RST,
-	sndRec,
-	DIN,
-	MISO,
-	SS,
-	SCLK,
-	MOSI,
-	DOUT
-    );
+		CLK,
+		RST,
+		sndRec,
+		DIN,
+		MISO,
+		SS,
+		SCLK,
+		MOSI,
+		DOUT
+		);
 
 // ===========================================================================
 // 										Port Declarations
@@ -57,7 +58,7 @@ module PmodJSTK(
 			wire [39:0] DOUT;
 
 			wire getByte;									// Initiates a data byte transfer in SPI_Int
-			wire [7:0] sndData;							// Data to be sent to Slave
+			wire [7:0] sndDataByte;						// Data to be sent to Slave
 			wire [7:0] RxData;							// Output data from SPI_Int
 			wire BUSY;										// Handshake from SPI_Int to SPI_Ctrl
 
@@ -83,7 +84,7 @@ module PmodJSTK(
 					.RxData(RxData),
 					.SS(SS),
 					.getByte(getByte),
-					.sndData(sndData),
+					.sndDataByte(sndData),
 					.DOUT(DOUT)
 			);
 
@@ -94,7 +95,7 @@ module PmodJSTK(
 					.CLK(iSCLK),
 					.RST(RST),
 					.sndRec(getByte),
-					.DIN(sndData),
+					.DIN(sndDataByte),
 					.MISO(MISO),
 					.MOSI(MOSI),
 					.SCLK(SCLK),

@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Engineer: Ryan Bowler
-// 
+//
 // Create Date:		06/07/2017
-// Module Name:		ClkDiv_10Hz 
+// Module Name:		ClkDiv_20Hz
 // Project Name:	Joystick_Controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
-// Description: Converts input 12 MHz clock signal to a 10Hz "update system" clock signal
+// Description: Converts input 12 MHz clock signal to a 20Hz "update system" clock signal
 //////////////////////////////////////////////////////////////////////////////////
 
-// ============================================================================== 
+// ==============================================================================
 // 										  Define Module
 // ==============================================================================
-module ClkDiv_10Hz(
+module ClkDiv_20Hz(
     CLK,										// 12MHz onbaord clock
     RST,										// Reset
-    CLKOUT										// New clock output
+    CLKOUT									// New clock output
     );
 
 // ===========================================================================
@@ -29,21 +29,21 @@ module ClkDiv_10Hz(
 // ===========================================================================
 // 							  Parameters, Regsiters, and Wires
 // ===========================================================================
-	
+
 	// Output register
 	reg CLKOUT = 1'b1;
-	
+
 	// Value to toggle output clock at
-	parameter cntEndVal = 20'h927C0;
+	parameter cntEndVal = 19'h493E0;
 	// Current count
-	reg [19:0] clkCount = 20'h00000;
-	
+	reg [18:0] clkCount = 19'h00000;
+
 // ===========================================================================
 // 										Implementation
 // ===========================================================================
 
 	//-------------------------------------------------
-	//	10Hz Clock Divider Generates Send/Receive signal
+	// 20Hz Clock Divider Generates timing to initiate Send/Receive
 	//-------------------------------------------------
 	always @(posedge CLK) begin
 

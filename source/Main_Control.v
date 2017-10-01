@@ -4,18 +4,15 @@
 //
 // Create Date:    	06/07/2017
 // Module Name:    	Main Module
-// Project Name:	Joystick_Controller
+// Project Name:		Joystick and oLED controller
 // Target Devices:	ICEStick
 // Tool versions:	iCEcube2
-// Description: This is a demo for the Digilent PmodJSTK. Data is sent and received
-//					 to and from the PmodJSTK at a frequency of 10Hz, and positional
-//					 data controls the cross LED pattern on the board. The positional
-//					 data of the joystick ranges from 0 to 1023 in both the X and Y
-//					 directions. The center LED will illuminate when a button is pressed.
-//					 SPI mode 0 is used for communication between the PmodJSTK and the Nexys3.
-//
-// Revision History:
-// 						Revision 0.01 - File Created (Josh Sackos)
+// Description: This module uses the Digilent PMOD JSTK2 and oLED screens to
+//						play around with and learn how to interface with serial communications.
+//						The positional data of the joystick ranges from 0 to 1023 in both the X and Y
+//					 	directions. The center LED will illuminate when a button is pressed.
+//					 	SPI mode 0 is used for communication between the PmodJSTK and the FPGA.
+//						SPI mode 3 is used for communication between the PMOD oLED and the FPGA.
 //////////////////////////////////////////////////////////////////////////////////
 
 // Top level entitiy
@@ -24,20 +21,16 @@
 // 								Define Module
 // ==============================================================================
 module Main_Control(
-    clk,
-	rst,
+		clk,
+		rst,
 
-	LED1,
-    LED2,
-    LED3,
-    LED4,
-    LED5,
+		LED,
 
-	JSTK_SS,
-    JSTK_MOSI,
-    JSTK_MISO,
-    JSTK_SCK
-    );
+		JSTK_SS,
+		JSTK_MOSI,
+		JSTK_MISO,
+		JSTK_SCK
+		);
 
 	// ===========================================================================
 	// 		Port Declarations
@@ -45,11 +38,7 @@ module Main_Control(
 			input  clk;					// 12Mhz onboard clock
 			input  rst;					// reset command, not implemented
 
-			output LED1;
-			output LED2;
-			output LED3;
-			output LED4;
-			output LED5;
+			output LED[4:0];		// On-board LEDs
 
 			input  JSTK_MISO;			// Master In Slave Out
 			output JSTK_SS;				// Slave Select
@@ -97,34 +86,30 @@ module Main_Control(
 			//-----------------------------------------------
 			//		Cycle colors based on joystick button
 			//-----------------------------------------------
-			colorcontrol Select_Color(
+			RGB_color_set Select_Color(
 					.clk(clk),
 					.button(jstkData[1:0]),
 					.RGBcolor(RGBcolor)
 			);
 
 			//-----------------------------------------------
-			//		Send Receive Generator
+			//		System update timing Generator
 			//-----------------------------------------------
-			ClkDiv_10Hz genSndRec(
+			ClkDiv_20Hz genSndRec(
 					.CLK(clk),
 					.RST(rst),
 					.CLKOUT(sndRec)
 			);
 
 			//-----------------------------------------------
-			//		Report joystick shit on LEDs
+			//		Report joystick shit on on-board LEDs
 			//-----------------------------------------------
-			LED_joystick lightcontroller(
+			LED_joystick boardLEDcontroller(
 					.clk(clk),
 					.xpos(XposData),
 					.ypos(YposData),
 					.button(jstkData[1:0]),
-					.LED1(LED1),
-					.LED2(LED2),
-					.LED3(LED3),
-					.LED4(LED4),
-					.LED5(LED5)
+					.LED(LED)
 			);
 
 			// Collect joystick state for position state

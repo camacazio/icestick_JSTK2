@@ -15,27 +15,27 @@
 //					 see page 2 in the PmodJSTK reference manual found at the link provided
 //					 below.
 //
-//					 http://www.digilentinc.com/Data/Products/XUPV2P-COVERS/PmodJSTK_rm_RevC.pdf
 //
 // Revision History:
 // 						Revision 0.01 - File Created (Josh Sackos)
+//							Revision 1.90 - Updated to transmit 5 bytes instead of 1 byte
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // ==============================================================================
 // 										  Define Module
 // ==============================================================================
 module spiCtrl(
-	CLK,
-	RST,
-	sndRec,
-	BUSY,
-	DIN,
-	RxData,
-	SS,
-	getByte,
-	sndData,
-	DOUT
-    );
+		CLK,
+		RST,
+		sndRec,
+		BUSY,
+		DIN,
+		RxData,
+		SS,
+		getByte,
+		sndData,
+		DOUT
+		);
 
 	// ===========================================================================
 	// 										Port Declarations
@@ -122,10 +122,10 @@ module spiCtrl(
 
 								// Init
 								Init : begin
-	
+
 										SS <= 1'b0;								// Enable slave
 										getByte <= 1'b1;						// Initialize data transfer
-										sndData <= tmpSRsend[39:32];			// Store data to be sent
+										sndData <= tmpSRsend[39:32];			// Store data byte to be sent
 										tmpSRsend <= tmpSRsend;					// Retain temporary send data
 										tmpSR <= tmpSR;							// Retain temporary data
 										DOUT <= DOUT;							// Retain output data
@@ -168,7 +168,7 @@ module spiCtrl(
 										SS <= 1'b0;								// Enable slave
 										getByte <= 1'b0;						// Do not request data
 										sndData <= sndData;						// Retain data to send
-										tmpSRsend <= {tmpSRsend[31:0], 8'b00000000}; // Shift send data
+										tmpSRsend <= {tmpSRsend[31:0], 8'h00}; // Shift send data
 										tmpSR <= {tmpSR[31:0], RxData};			// Store byte just read
 										DOUT <= DOUT;							// Retain output data
 										byteCnt <= byteCnt;						// Do not count
