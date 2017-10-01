@@ -4,10 +4,10 @@
 
 # Version:            2016.02.27810
 
-# File Generated:     Jun 18 2017 11:29:18
+# File Generated:     Jun 25 2017 11:10:39
 
 # ##############################################################################
 
 ####---- CreateClock list ----1
-create_clock  -period 83.33 -name {clk} [get_nets {clk_c_g}] 
+create_clock  -period 83.33 -name {clk} [get_ports {clk}] 
 
