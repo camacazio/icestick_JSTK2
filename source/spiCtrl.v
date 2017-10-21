@@ -18,7 +18,7 @@
 //
 // Revision History:
 // 						Revision 0.01 - File Created (Josh Sackos)
-//							Revision 1.90 - Updated to transmit 5 bytes instead of 1 byte
+//						Revision 1.00 - Updated to transmit 5 bytes instead of 1 byte
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // ==============================================================================

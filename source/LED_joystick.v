@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Engineer: Amber Arendas
+// Engineer: Amber
 //
 // Create Date:		05/23/2017
 // Module Name:		LED_joystick
@@ -14,17 +14,17 @@
 // 										  Define Module
 // ==============================================================================
 module LED_joystick(
-      input		clk,
+      input			clk,
 
       input [9:0]	xpos,
       input [9:0]	ypos,
       input [1:0]	button,
 
-      output [4:0] LED
+      output [4:0] 	LED
       );
 
 	// ===========================================================================
-	// 							  Parameters, Regsiters, and Wires
+	// 							  Parameters, Registers, and Wires
 	// ===========================================================================
 	reg xPosLED[1:0];
 	reg yPosLED[1:0];

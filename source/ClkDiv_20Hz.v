@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Engineer: Ryan Bowler
+// Engineer: Ryan
 //
 // Create Date:		06/07/2017
 // Module Name:		ClkDiv_20Hz

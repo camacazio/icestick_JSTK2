@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Engineer: Ryan Bowler
+// Engineer: Ryan
 //
 // Create Date:    	06/07/2017
 // Module Name:    	Main Module
@@ -38,7 +38,7 @@ module Main_Control(
 			input  clk;					// 12Mhz onboard clock
 			input  rst;					// reset command, not implemented
 
-			output LED[4:0];		// On-board LEDs
+			output [4:0] LED;		// On-board LEDs
 
 			input  JSTK_MISO;			// Master In Slave Out
 			output JSTK_SS;				// Slave Select
@@ -48,10 +48,8 @@ module Main_Control(
 	// ===========================================================================
 	// 		Parameters, Regsiters, and Wires
 	// ===========================================================================
-			// Holds data to be sent to PmodJSTK
-			wire [39:0] sndData;
 
-			// Signal to send/receive data to/from PmodJSTK
+			// Signal to send/receive data to/from PMOD peripherals
 			wire sndRec;
 
 			// Data read from PmodJSTK
@@ -60,6 +58,8 @@ module Main_Control(
 			wire [9:0] XposData;
 			// Signal carrying joystick Y data
 			wire [9:0] YposData;
+			// Holds data to be sent to PmodJSTK
+			wire [39:0] sndData;
 
 			// Currently selected color for system
 			wire [23:0] RGBcolor;
@@ -112,6 +112,11 @@ module Main_Control(
 					.LED(LED)
 			);
 
+			
+			//-----------------------------------------------
+			//		Assignments
+			//-----------------------------------------------
+			
 			// Collect joystick state for position state
 			assign YposData = {jstkData[25:24], jstkData[39:32]};
 			assign XposData = {jstkData[9:8], jstkData[23:16]};

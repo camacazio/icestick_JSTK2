@@ -84,7 +84,7 @@ module PmodJSTK(
 					.RxData(RxData),
 					.SS(SS),
 					.getByte(getByte),
-					.sndDataByte(sndData),
+					.sndData(sndDataByte),
 					.DOUT(DOUT)
 			);
 

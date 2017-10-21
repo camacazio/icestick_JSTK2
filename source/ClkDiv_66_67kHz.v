@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Engineer: Ryan Bowler
+// Engineer: Ryan
 //
 // Create Date:		05/23/2017
 // Module Name:		ClkDiv_66_67kHz

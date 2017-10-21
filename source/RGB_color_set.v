@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Engineer: Amber Arendas
+// Engineer: Amber
 //
 // Create Date:		05/23/2017
 // Module Name:		RGB_color_set
@@ -11,17 +11,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module RGB_color_set(
-	clk,
-	button,
-	RGBcolor
+	input clk,
+	input [1:0] button,
+	output [23:0] RGBcolor
     );
-
-	// ===========================================================================
-	// 		Port Declarations
-	// ===========================================================================
-	input clk;
-	input [1:0] button;
-	output [23:0] RGBcolor;
 
 	// ===========================================================================
 	// 							  Parameters, Regsiters, and Wires
@@ -30,6 +23,10 @@ module RGB_color_set(
 	reg [7:0] red;
 	reg [7:0] gre;
 	reg [7:0] blu;
+
+	// ===========================================================================
+	// 										Implementation
+	// ===========================================================================
 
 	always @ (posedge button[0])
 		begin
@@ -40,15 +37,9 @@ module RGB_color_set(
 	// Begin
 	always @ (posedge clk)
 		begin
-		// white light
-		if (cunt == 0)begin
-			red <= 8'b01111111;
-			gre <= 8'b01111111;
-			blu <= 8'b01111111;
-			end
 
 		// Color shit
-		else if (cunt == 1)begin
+		if (cunt == 1)begin
 			red <= 8'b01111111;
 			gre <= 8'b00000000;
 			blu <= 8'b00000000;
@@ -65,7 +56,13 @@ module RGB_color_set(
 			gre <= 8'b00000000;
 			blu <= 8'b01111111;
 			end
-
+			
+		// white light
+		else begin
+			red <= 8'b01111111;
+			gre <= 8'b01111111;
+			blu <= 8'b01111111;
+			end
 		end
 
 	assign RGBcolor = {red, gre, blu};
