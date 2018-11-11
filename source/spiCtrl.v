@@ -60,7 +60,7 @@ module spiCtrl(
 			reg SS = 1'b1;
 			reg getByte = 1'b0;
 			reg [7:0] sndData = 8'h00;
-			reg [39:0] DOUT = 40'h0000000000;
+			reg [39:0] DOUT;
 
 			// FSM States
 			parameter [2:0] Idle = 3'd0,

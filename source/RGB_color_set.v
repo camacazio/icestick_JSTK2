@@ -38,8 +38,15 @@ module RGB_color_set(
 	always @ (posedge clk)
 		begin
 
+		// Default Color
+		if(button[1]) begin
+			red <= 8'b01011111;
+			gre <= 8'b01011111;
+			blu <= 8'b01011111;
+		end
+
 		// Color shit
-		if (cunt == 1)begin
+		else if (cunt == 1)begin
 			red <= 8'b01111111;
 			gre <= 8'b00000000;
 			blu <= 8'b00000000;
@@ -56,13 +63,14 @@ module RGB_color_set(
 			gre <= 8'b00000000;
 			blu <= 8'b01111111;
 			end
-			
+
 		// white light
 		else begin
-			red <= 8'b01111111;
-			gre <= 8'b01111111;
-			blu <= 8'b01111111;
+			red <= 8'b00111111;
+			gre <= 8'b00111111;
+			blu <= 8'b00111111;
 			end
+
 		end
 
 	assign RGBcolor = {red, gre, blu};

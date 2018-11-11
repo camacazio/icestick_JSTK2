@@ -34,14 +34,14 @@ module LED_joystick(
 		begin
 
 		// Check if the joystick x position has gone beyond a min value
-		if (xpos < 392) begin
+		if (xpos < 384) begin
 			xPosLED[0] <= 1'b1;
 			end
 		else begin
 			xPosLED[0] <= 1'b0;
 			end
 
-		if (xpos > 632) begin
+		if (xpos > 640) begin
 			xPosLED[1] <= 1'b1;
 			end
 		else begin
@@ -49,19 +49,19 @@ module LED_joystick(
 			end
 
 		// Check if the joystick y position has gone beyond a min value
-		if (ypos < 392) begin
+		if (ypos < 384) begin
 			yPosLED[1] <= 1'b1;
 			end
 		else begin
 			yPosLED[1] <= 1'b0;
 			end
 
-    if (ypos > 632) begin
-      yPosLED[0] <= 1'b1;
-      end
-    else begin
-      yPosLED[0] <= 1'b0;
-      end
+        if (ypos > 640) begin
+            yPosLED[0] <= 1'b1;
+            end
+        else begin
+            yPosLED[0] <= 1'b0;
+            end
 
 		// end behavior
 		end
