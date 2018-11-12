@@ -5,8 +5,8 @@
 // Create Date:		06/07/2017
 // Module Name:		ClkDiv_20Hz
 // Project Name:	Joystick_Controller
-// Target Devices:	ICEStick
-// Tool versions:	iCEcube2
+// Target Devices:	ICE40
+// Tool versions:	APIO
 // Description: Converts input 12 MHz clock signal to a 20Hz "update system" clock signal
 //////////////////////////////////////////////////////////////////////////////////
 

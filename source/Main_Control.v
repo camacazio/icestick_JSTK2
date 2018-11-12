@@ -4,15 +4,14 @@
 //
 // Create Date:    	06/07/2017
 // Module Name:    	Main Module
-// Project Name:		Joystick and oLED controller
-// Target Devices:	ICEStick
-// Tool versions:	iCEcube2
-// Description: This module uses the Digilent PMOD JSTK2 and oLED screens to
-//						play around with and learn how to interface with serial communications.
-//						The positional data of the joystick ranges from 0 to 1023 in both the X and Y
-//					 	directions. The center LED will illuminate when a button is pressed.
+// Project Name:	Joystick controller
+// Target Devices:	ICE40/Icestick
+// Tool versions:	APIO/Icestorm
+// Description: This module uses the Digilent PMOD JSTK2 to play around with and learn
+//						how to interface with serial communications.
+//						The positional data of the joystick ranges from 0 to 1023 in
+//					 	both the X and Y directions. The center LED will illuminate when a button is pressed.
 //					 	SPI mode 0 is used for communication between the PmodJSTK and the FPGA.
-//						SPI mode 3 is used for communication between the PMOD oLED and the FPGA.
 //////////////////////////////////////////////////////////////////////////////////
 
 // Top level entitiy
@@ -112,11 +111,11 @@ module Main_Control(
 					.LED(LED)
 			);
 
-			
+
 			//-----------------------------------------------
 			//		Assignments
 			//-----------------------------------------------
-			
+
 			// Collect joystick state for position state
 			assign YposData = {jstkData[25:24], jstkData[39:32]};
 			assign XposData = {jstkData[9:8], jstkData[23:16]};

@@ -5,8 +5,8 @@
 // Create Date:		05/23/2017
 // Module Name:		LED_joystick
 // Project Name:	Joystick_Controller
-// Target Devices:	ICEStick
-// Tool versions:	iCEcube2
+// Target Devices:	ICE40
+// Tool versions:	APIO
 // Description: Toggles on-board LEDs depending on joystick state
 //////////////////////////////////////////////////////////////////////////////////
 

@@ -5,8 +5,8 @@
 // Create Date:		05/23/2017
 // Module Name:		RGB_color_set
 // Project Name:	Joystick_Controller
-// Target Devices:	ICEStick
-// Tool versions:	iCEcube2
+// Target Devices:	ICE40
+// Tool versions:	APIO
 // Description: Cycles the RGB color setting, each of R,G,B are a single byte
 //////////////////////////////////////////////////////////////////////////////////
 

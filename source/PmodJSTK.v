@@ -1,13 +1,12 @@
 `timescale 1ns / 1ps
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Company: Digilent Inc.
-// Engineer: Josh Sackos
+// Engineer: Ryan
 //
 // Create Date:    07/11/2012
 // Module Name:    PmodJSTK
-// Project Name: 	 PmodJSTK_Demo
-// Target Devices: ICEStick
-// Tool versions:  iCEcube2
+// Project Name:   Joystick_Controller
+// Target Devices: ICE40
+// Tool versions:  APIO
 // Description: This component consists of three subcomponents a 66.67kHz serial clock,
 //					 an SPI controller and a SPI interface. The SPI interface component is
 //					 responsible for sending and receiving a byte of data to and from the
