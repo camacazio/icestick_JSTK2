@@ -1,2 +1,2 @@
-# icestick_JSTK2_ORGB
-This uses the Lattice Semi ICESTICK board and the PMOD JSTK2 and ORGB modules.
+# icestick_JSTK2
+This uses the Lattice Semi ICESTICK board and the PMOD JSTK2. It cycles colors on the PMOD RGB light and it reads the joystick position to light the cross-pattern LEDs on the ICESTICK board.
