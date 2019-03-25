@@ -5,9 +5,9 @@
 //
 // Create Date:    07/11/2012
 // Module Name:    spiCtrl
-// Project Name:   Joystick_Controller
-// Target Devices: ICE40
-// Tool versions:  APIO
+// Project Name: 	 PmodJSTK_Demo
+// Target Devices: Nexys3
+// Tool versions:  ISE 14.1
 // Description: This component manages all data transfer requests,
 //					 and manages the data bytes being sent to the PmodJSTK.
 //
@@ -60,7 +60,7 @@ module spiCtrl(
 			reg SS = 1'b1;
 			reg getByte = 1'b0;
 			reg [7:0] sndData = 8'h00;
-			reg [39:0] DOUT;
+			reg [39:0] DOUT = 40'h0000000000;
 
 			// FSM States
 			parameter [2:0] Idle = 3'd0,

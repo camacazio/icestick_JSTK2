@@ -2,12 +2,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 // Company: Digilent Inc.
 // Engineer: Josh Sackos
-//
+// 
 // Create Date:    07/11/2012
 // Module Name:    spiMode0
-// Project Name:   Joystick_Controller
-// Target Devices: ICE40
-// Tool versions:  APIO
+// Project Name: 	 PmodJSTK_Demo
+// Target Devices: Nexys3
+// Tool versions:  ISE 14.1
 // Description: This module provides the interface for sending and receiving data
 //					 to and from the PmodJSTK, SPI mode 0 is used for communication.  The
 //					 master (Nexys3) reads the data on the MISO input on rising edges, the
@@ -18,7 +18,7 @@
 //					 To initialize a data transfer between the master and the slave simply
 //					 assert the sndRec input.  While the data transfer is in progress the
 //					 BUSY output is asserted to indicate to other componenets that a data
-//					 transfer is in progress.  Data to send to the slave is input on the
+//					 transfer is in progress.  Data to send to the slave is input on the 
 //					 DIN input, and data read from the slave is output on the DOUT output.
 //
 //					 Once a sndRec signal has been received a byte of data will be sent
@@ -26,7 +26,7 @@
 //					 data that is sent comes from the DIN input. Received data is output
 //					 on the DOUT output.
 //
-// Revision History:
+// Revision History: 
 // 						Revision 0.01 - File Created (Josh Sackos)
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,8 +82,8 @@ module spiMode0(
 
 			reg CE = 0;										// Clock enable, controls serial
 																// clock signal sent to slave
-
-
+	
+	 
 	// ===========================================================================
 	// 										Implementation
 	// ===========================================================================
@@ -94,7 +94,7 @@ module spiMode0(
 			assign MOSI = wSR[7];
 			// Connect data output bus to read shift register
 			assign DOUT = rSR;
-
+	
 			//-------------------------------------
 			//			 Write Shift Register
 			// 	slave reads on rising edges,
@@ -110,17 +110,17 @@ module spiMode0(
 									Idle : begin
 											wSR <= DIN;
 									end
-
+									
 									Init : begin
 											wSR <= wSR;
 									end
-
+									
 									RxTx : begin
 											if(CE == 1'b1) begin
 													wSR <= {wSR[6:0], 1'b0};
 											end
 									end
-
+									
 									Done : begin
 											wSR <= wSR;
 									end
@@ -146,17 +146,17 @@ module spiMode0(
 									Idle : begin
 											rSR <= rSR;
 									end
-
+									
 									Init : begin
 											rSR <= rSR;
 									end
-
+									
 									RxTx : begin
 											if(CE == 1'b1) begin
 													rSR <= {rSR[6:0], MISO};
 											end
 									end
-
+									
 									Done : begin
 											rSR <= rSR;
 									end
@@ -166,12 +166,12 @@ module spiMode0(
 
 
 
-
+			
 			//------------------------------
 			//		   SPI Mode 0 FSM
 			//------------------------------
 			always @(negedge CLK) begin
-
+			
 					// Reset button pressed
 					if(RST == 1'b1) begin
 							CE <= 1'b0;				// Disable serial clock
@@ -180,16 +180,16 @@ module spiMode0(
 							pState <= Idle;		// Go back to Idle state
 					end
 					else begin
-
+							
 							case (pState)
-
+							
 								// Idle
 								Idle : begin
 
 										CE <= 1'b0;				// Disable serial clock
 										BUSY <= 1'b0;			// Not busy in Idle state
 										bitCount <= 4'd0;		// Clear #bits read/written
-
+										
 
 										// When send receive signal received begin data transmission
 										if(sndRec == 1'b1) begin
@@ -198,18 +198,18 @@ module spiMode0(
 										else begin
 											pState <= Idle;
 										end
-
+										
 								end
 
 								// Init
 								Init : begin
-
+								
 										BUSY <= 1'b1;			// Output a busy signal
 										bitCount <= 4'h0;		// Have not read/written anything yet
 										CE <= 1'b0;				// Disable serial clock
-
+										
 										pState <= RxTx;		// Next state receive transmit
-
+										
 								end
 
 								// RxTx
@@ -217,7 +217,7 @@ module spiMode0(
 
 										BUSY <= 1'b1;						// Output busy signal
 										bitCount <= bitCount + 1'b1;	// Begin counting bits received/written
-
+										
 										// Have written all bits to slave so prevent another falling edge
 										if(bitCount >= 4'd8) begin
 												CE <= 1'b0;
@@ -226,7 +226,7 @@ module spiMode0(
 										else begin
 												CE <= 1'b1;
 										end
-
+										
 										// Read last bit so data transmission is finished
 										if(bitCount == 4'd8) begin
 												pState <= Done;
@@ -244,14 +244,14 @@ module spiMode0(
 										CE <= 1'b0;			// Disable serial clock
 										BUSY <= 1'b1;		// Still busy
 										bitCount <= 4'd0;	// Clear #bits read/written
-
+										
 										pState <= Idle;
 
 								end
 
 								// Default State
 								default : pState <= Idle;
-
+								
 							endcase
 					end
 			end

@@ -5,8 +5,8 @@
 // Create Date:		05/23/2017
 // Module Name:		ClkDiv_66_67kHz
 // Project Name:	Joystick_Controller
-// Target Devices:	ICE40
-// Tool versions:	APIO
+// Target Devices:	ICEStick
+// Tool versions:	iCEcube2
 // Description: Converts input 12 MHz clock signal to a 66.67kHz clock signal for serial comm
 //////////////////////////////////////////////////////////////////////////////////
 

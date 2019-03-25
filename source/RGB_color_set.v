@@ -30,7 +30,7 @@ module RGB_color_set(
 
 	always @ (posedge button[0])
 		begin
-			if (button[0])
+			//if (button[0])
 				cunt <= cunt+1;
 		end
 
